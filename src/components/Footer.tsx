@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
               className="text-orange-600 font-bold hover:underline flex items-center gap-1"
             >
-              <span>app.bmoprojects.in</span>
+              <span>Bmoprojects</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>

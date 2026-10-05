@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeaturesSection } from './components/FeaturesSection';
@@ -9,20 +11,25 @@ import { CtaBanner } from './components/CtaBanner';
 import { Footer } from './components/Footer';
 
 export function App() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-orange-500 selection:text-white">
+      {/* 0. Initial Project Preloader Animation */}
+      <Preloader onComplete={() => setIsLoaded(true)} />
+
       {/* Light Navbar */}
       <Navbar />
 
       {/* Main Content Sections */}
-      <main>
+      <main className={isLoaded ? 'opacity-100 transition-opacity duration-700' : 'opacity-90'}>
         {/* 1. Bright Hero Section */}
         <Hero />
 
         {/* 2. True 6 Core Features Grid (id="features") */}
         <FeaturesSection />
 
-        {/* 3. Performance Analytics & Leaderboard Section (id="analytics-preview") */}
+        {/* 3. Performance Analytics & Leaderboard Section (id="performance-analytics") */}
         <PerformanceAnalyticsSection />
 
         {/* 4. Task Management & Issue Interface Section (id="app-interface") */}

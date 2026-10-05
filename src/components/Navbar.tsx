@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ExternalLink, ArrowRight } from 'lucide-react';
+import bmoLogo from '../assets/bmo-logo.jpeg';
 
 const APP_URL = "https://app.bmoprojects.in/";
 
@@ -18,103 +19,122 @@ export const Navbar: React.FC = () => {
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      if (!element && id === 'performance-analytics') {
+        element = document.getElementById('analytics-preview');
+      }
+      if (!element && id === 'app-interface') {
+        element = document.getElementById('task-issue');
+      }
+      if (!element && id === 'analytics-preview') {
+        element = document.getElementById('performance-analytics');
+      }
+      if (!element && id === 'task-issue') {
+        element = document.getElementById('app-interface');
+      }
+
+      if (element) {
+        const yOffset = -80;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm'
-          : 'bg-white/80 backdrop-blur-sm py-4 border-b border-slate-100'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 py-2 sm:py-2.5 shadow-sm'
+          : 'bg-white/90 backdrop-blur-sm py-2.5 sm:py-3.5 border-b border-slate-100'
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
 
-          {/* Logo */}
+          {/* Responsive Logo & Brand Name */}
           <div
-            className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center space-x-1.5 sm:space-x-2.5 md:space-x-3 cursor-pointer group shrink-0"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           >
-            <div className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-orange-500/30">
-              B
+            <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl overflow-hidden bg-white flex items-center justify-center group-hover:scale-105 transition-transform shadow-xs">
+              <img
+                src={bmoLogo}
+                alt="BMO Projects Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="flex items-center">
-              <span className="text-xl font-extrabold tracking-tight text-orange-500 font-heading">BMO</span>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900 font-heading ml-1">PROJECTS</span>
+            <div className="flex items-center font-heading">
+              <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-black tracking-tight text-orange-500">BMO</span>
+              <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-black tracking-tight text-slate-900 ml-1 sm:ml-1.5">PROJECTS</span>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-8 text-xs md:text-sm lg:text-base font-bold text-slate-700">
             <button
               onClick={() => scrollToSection('features')}
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 transition-colors cursor-pointer py-1"
             >
               Features
             </button>
             <button
-              onClick={() => scrollToSection('analytics-preview')}
-              className="hover:text-orange-500 transition-colors"
+              onClick={() => scrollToSection('performance-analytics')}
+              className="hover:text-orange-500 transition-colors cursor-pointer py-1"
             >
               Performance Analytics
             </button>
             <button
               onClick={() => scrollToSection('app-interface')}
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 transition-colors cursor-pointer py-1"
             >
               App Interface
             </button>
             <button
               onClick={() => scrollToSection('faq')}
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 transition-colors cursor-pointer py-1"
             >
               FAQ
             </button>
           </nav>
 
-          {/* Right Action Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            
+          {/* Desktop Right Action Button */}
+          <div className="hidden md:flex items-center space-x-3 shrink-0">
             <a
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-md shadow-orange-500/25 transition-all duration-200 transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-xl text-xs md:text-sm lg:text-base font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-md shadow-orange-500/25 transition-all duration-200 transform hover:-translate-y-0.5"
             >
               <span>Launch App</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center space-x-2">
+          {/* Mobile Menu Controls */}
+          <div className="flex md:hidden items-center space-x-1.5 sm:space-x-2 shrink-0">
             <a
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-orange-500"
+              className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg text-xs sm:text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-xs transition-colors"
             >
               App
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+              className="p-1.5 sm:p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
 
@@ -128,30 +148,35 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 shadow-lg"
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 shadow-xl"
           >
-            <div className="flex flex-col space-y-3 font-semibold text-slate-700">
+            <div className="flex flex-col space-y-3 font-bold text-slate-800 text-base">
               <button
+                type="button"
                 onClick={() => scrollToSection('features')}
-                className="text-left py-2 hover:text-orange-500"
+                className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
               >
                 Features Overview
               </button>
               <button
-                onClick={() => scrollToSection('analytics-preview')}
-                className="text-left py-2 hover:text-orange-500"
+                type="button"
+                onClick={() => scrollToSection('performance-analytics')}
+                className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
               >
-                Performance Analytics & Leaderboard
+                Performance Analytics
               </button>
               <button
+                type="button"
                 onClick={() => scrollToSection('app-interface')}
-                className="text-left py-2 hover:text-orange-500"
+                className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
               >
-                Task & Issue Interface
+                App Interface
               </button>
               <button
+                type="button"
                 onClick={() => scrollToSection('faq')}
-                className="text-left py-2 hover:text-orange-500"
+                className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
               >
                 Frequently Asked Questions
               </button>
@@ -160,10 +185,10 @@ export const Navbar: React.FC = () => {
                   href={APP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 rounded-xl text-center font-bold text-white bg-orange-500 shadow-md flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-xl text-center font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>Open BMO Projects (app.bmoprojects.in)</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Open BMO Projects</span>
+                  <ArrowRight className="w-4.5 h-4.5" />
                 </a>
               </div>
             </div>

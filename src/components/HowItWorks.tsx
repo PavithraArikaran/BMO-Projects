@@ -46,10 +46,10 @@ export const HowItWorks: React.FC = () => {
             return (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: idx * 0.15 }}
                 whileHover={{ y: -5 }}
                 className="rounded-2xl p-8 bg-white border border-slate-200 card-shadow hover:border-orange-300 transition-all duration-300 flex flex-col justify-between relative group"
               >
@@ -66,7 +66,7 @@ export const HowItWorks: React.FC = () => {
                   <h3 className="text-xl font-bold text-slate-900 font-heading mb-2">
                     {s.title}
                   </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     {s.description}
                   </p>
                 </div>

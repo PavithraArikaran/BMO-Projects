@@ -14,7 +14,7 @@ export const FaqSection: React.FC = () => {
   return (
     <section id="faq" className="py-20 bg-white border-t border-slate-200 scroll-mt-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="text-center mb-14">
           <span className="text-xs font-bold uppercase tracking-wider text-orange-600 bg-orange-100 border border-orange-200 px-3.5 py-1.5 rounded-full">
             FAQ
@@ -34,14 +34,14 @@ export const FaqSection: React.FC = () => {
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-slate-900 hover:text-orange-600 transition-colors text-sm font-heading"
+                  className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-slate-900 hover:text-orange-600 transition-colors text-base font-heading"
                 >
                   <span>{faq.question}</span>
                   <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180 text-orange-600' : ''}`} />
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 pt-3 bg-white">
+                  <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-200/60 pt-3 bg-white">
                     {faq.answer}
                   </div>
                 )}
