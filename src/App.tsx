@@ -5,9 +5,9 @@ import { Hero } from './components/Hero';
 import { FeaturesSection } from './components/FeaturesSection';
 import { PerformanceAnalyticsSection } from './components/PerformanceAnalyticsSection';
 import { AppInterfaceSection } from './components/AppInterfaceSection';
+import { ReviewsSection } from './components/ReviewsSection';
 import { HowItWorks } from './components/HowItWorks';
 import { FaqSection } from './components/FaqSection';
-import { CtaBanner } from './components/CtaBanner';
 import { Footer } from './components/Footer';
 
 export function App() {
@@ -35,14 +35,17 @@ export function App() {
         {/* 4. Task Management & Issue Interface Section (id="app-interface") */}
         <AppInterfaceSection />
 
-        {/* 5. Simple 3-Step Process (id="how-it-works") */}
+        {/* 5. Reviews, Testimonials & Trustable Clients Section (id="reviews") */}
+        <ReviewsSection />
+
+        {/* 6. Simple 3-Step Process (id="how-it-works") */}
         <HowItWorks />
 
-        {/* 6. FAQ (id="faq") */}
+        {/* 7. FAQ (id="faq") */}
         <FaqSection />
 
-        {/* 7. Simple CTA Banner */}
-        <CtaBanner />
+        {/* 8. Simple CTA Banner */}
+        {/* <CtaBanner /> */}
       </main>
 
       {/* Footer with "Crafted with ❤️ by BMO SOFTWARE" */}

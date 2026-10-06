@@ -99,6 +99,12 @@ export const Navbar: React.FC = () => {
               App Interface
             </button>
             <button
+              onClick={() => scrollToSection('reviews')}
+              className="hover:text-orange-500 transition-colors cursor-pointer py-1"
+            >
+              Reviews
+            </button>
+            <button
               onClick={() => scrollToSection('faq')}
               className="hover:text-orange-500 transition-colors cursor-pointer py-1"
             >
@@ -172,6 +178,13 @@ export const Navbar: React.FC = () => {
                 className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
               >
                 App Interface
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('reviews')}
+                className="w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
+              >
+                Customer Reviews
               </button>
               <button
                 type="button"

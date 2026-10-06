@@ -15,8 +15,8 @@ export const DeviceMockup: React.FC<DeviceMockupProps> = ({
   imageSrc,
   altText,
   floatingBadges,
-  maxHeight = "max-h-[680px]",
-  maxWidth = "max-w-5xl"
+  maxHeight = "max-h-[980px]",
+  maxWidth = "max-w-9xl"
 }) => {
   return (
     <div className="w-full flex flex-col items-center">
