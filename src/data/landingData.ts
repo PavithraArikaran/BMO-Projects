@@ -118,14 +118,18 @@ export const REAL_LEADERBOARD_SAMPLE = [
 export const REAL_FAQS = [
   {
     question: "What is BMO Projects?",
-    answer: "BMO Projects is a web-based task delegation, issue tracking, and employee performance analytics platform available at https://app.bmoprojects.in/. It helps teams log tasks, calculate scores, track daily average productivity, and evaluate employee performance standings."
+    answer: "BMO Projects is a web-based task delegation, issue tracking, and employee performance analytics platform available at https://app.bmoprojects.in/. It helps engineering and operations teams assign tasks, calculate score points, track daily average velocity, and evaluate employee standings."
   },
   {
     question: "How does BMO Projects calculate points and daily averages?",
-    answer: "Points are calculated automatically based on tasks completed, estimated vs. actual worked hours, and issue resolutions. The platform calculates your Daily Average score (e.g., 16.67 pts) across your activity history."
+    answer: "Points are computed automatically by the scoring engine based on task completion status, estimated hours vs. actual worked hours ratio, and defect resolution SLA. Your Daily Average score (e.g., +16.67 pts) is calculated across your 30-day activity history."
   },
   {
-    question: "How can I start using BMO Projects?",
-    answer: "Simply visit https://app.bmoprojects.in/ or click 'Launch App' to log in, create tasks, report issues, and monitor real-time performance analytics."
+    question: "How does task assignment and worked hours tracking function?",
+    answer: "Project leads can create tasks with target estimated hours and assign them to specific personnel. Team members update task progress (Not Started, In Progress, Completed) and log actual worked hours seamlessly in My Dashboard."
+  },
+  {
+    question: "Can I view past 30-day velocity reports for individual team members?",
+    answer: "Yes, BMO Projects generates detailed 30-day employee performance reports showing daily velocity, total hours worked, task effort vs issue fix effort, and defect ratios."
   }
 ];

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ThumbsUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
-// Real Brand Client Logos matching pin_clients.jpg + BMO Enterprise Clients
+// Real Brand Client Logos
 const CLIENT_LOGOS = [
   {
     name: 'Adobe',
@@ -72,7 +72,6 @@ interface Testimonial {
   avatar: string;
   content: string;
   rating: number;
-  helpfulCount: number;
 }
 
 const TESTIMONIALS: Testimonial[] = [
@@ -84,7 +83,6 @@ const TESTIMONIALS: Testimonial[] = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250',
     content: 'I knew I was going to get great service, but BMO Projects went above and beyond expectations. Our daily task output increased dramatically within two weeks.',
     rating: 5,
-    helpfulCount: 42
   },
   {
     id: '2',
@@ -94,7 +92,6 @@ const TESTIMONIALS: Testimonial[] = [
     avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=250',
     content: 'This is the best thing that happened to my small business. They re-branded, re-organized and re-vamped my company workflow in no time.',
     rating: 5,
-    helpfulCount: 38
   },
   {
     id: '3',
@@ -104,7 +101,6 @@ const TESTIMONIALS: Testimonial[] = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250',
     content: 'They are great. They did exactly what I needed. The friendly chaps are a real problem solvers. Loved working with them.',
     rating: 5,
-    helpfulCount: 56
   },
   {
     id: '4',
@@ -114,7 +110,6 @@ const TESTIMONIALS: Testimonial[] = [
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=250',
     content: 'Awesome services. I am really happy to be here because of their services. I will continue to use their scoring and issue tracking in the future.',
     rating: 5,
-    helpfulCount: 31
   },
   {
     id: '5',
@@ -124,13 +119,12 @@ const TESTIMONIALS: Testimonial[] = [
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250',
     content: 'By far the best system! This is the most efficient platform they have put together. Everyone is so knowledgeable and helpful.',
     rating: 5,
-    helpfulCount: 47
   }
 ];
 
 export const ReviewsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(2); // Center on Zahid Miles by default
-  const [helpfulVotes, setHelpfulVotes] = useState<Record<string, number>>({});
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -140,72 +134,124 @@ export const ReviewsSection: React.FC = () => {
     setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
   };
 
-  const handleVote = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setHelpfulVotes(prev => ({
-      ...prev,
-      [id]: (prev[id] || 0) + 1
-    }));
-  };
+  // Keyboard navigation (ArrowLeft & ArrowRight keys)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (e.target as HTMLElement)?.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
+
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Automatic smooth scroll/rotation timer
+  useEffect(() => {
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
   return (
-    <section id="reviews" className="py-24 md:py-32 bg-[#F6F8FD] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative">
-      
+    <section 
+      id="reviews" 
+      className="py-24 md:py-32 bg-[#F6F8FD] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ================= 1. OUR CLIENTS LOGO BAR (Matching pin_clients.jpg) ================= */}
-        <div className="mb-24 text-center">
-          <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-400 mb-8">
-            Our clients
-          </p>
+        {/* ================= 1. OUR CLIENTS LOGO BAR (Single Row Premium Layout) ================= */}
+        <div className="mb-20 text-center">
+          
+          <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xl shadow-slate-200/50 overflow-hidden">
+            
+            {/* Subtle Inner Glow */}
+            <div className="absolute -top-12 -left-12 w-48 h-48 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
 
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 md:gap-16 opacity-90">
-            {CLIENT_LOGOS.map((client, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.08 }}
-                className="px-4 py-2 bg-white/60 hover:bg-white rounded-xl border border-slate-200/50 hover:border-slate-300 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-center cursor-pointer"
-              >
-                {client.svg}
-              </motion.div>
-            ))}
+            {/* Header Badge Tag */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 text-slate-500 text-xs font-extrabold uppercase tracking-widest mb-6 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+              <span>Trusted By Industry Leaders</span>
+            </div>
+
+            {/* Single Horizontal Row Grid for all 6 Logos */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 items-center justify-items-center">
+              {CLIENT_LOGOS.map((client, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -3, scale: 1.04 }}
+                  className="w-full h-16 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-orange-300 transition-all duration-300 flex items-center justify-center p-3 cursor-pointer group"
+                >
+                  <div className="transition-transform duration-300 group-hover:scale-105">
+                    {client.svg}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
           </div>
+
         </div>
 
-        {/* ================= 2. TESTIMONIALS SECTION (Matching pin_testimonials.jpg) ================= */}
-        <div className="relative bg-white/90 backdrop-blur-md rounded-[36px] p-8 sm:p-12 lg:p-16 border border-slate-100 shadow-2xl shadow-slate-200/70 overflow-hidden">
+        {/* ================= 2. TESTIMONIALS CAROUSEL CONTAINER ================= */}
+        <div className="relative bg-white/90 backdrop-blur-md rounded-[36px] p-6 sm:p-10 lg:p-16 border border-slate-100 shadow-2xl shadow-slate-200/70 overflow-hidden">
           
-          {/* Faint Giant Quote Watermark Top Left (Matching Pin) */}
+          {/* Faint Giant Quote Watermark Top Left */}
           <div className="absolute top-4 left-6 text-slate-100 font-serif text-[180px] leading-none select-none pointer-events-none opacity-80">
             “
           </div>
 
           {/* Section Header */}
-          <div className="text-center relative z-10 max-w-2xl mx-auto mb-16">
+          <div className="text-center relative z-10 max-w-2xl mx-auto mb-14">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-heading mb-4">
               What our Clients say!
             </h2>
             
-            {/* Styled Pink/Red underline bar with dot (Exact match from pin_testimonials.jpg) */}
+            {/* Styled Pink/Red underline bar with dot */}
             <div className="flex items-center justify-center gap-2 mt-2">
               <div className="h-1 w-24 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" />
               <div className="w-2.5 h-2.5 bg-pink-500 rounded-full" />
             </div>
           </div>
 
-          {/* Elevated Carousel Row Container (Exact match from pin_testimonials.jpg) */}
-          <div className="relative z-10 my-8">
+          {/* LEFT CORNER FIXED NAVIGATION ARROW BUTTON */}
+          <button
+            onClick={handlePrev}
+            aria-label="Previous Testimonial"
+            className="absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          {/* RIGHT CORNER FIXED NAVIGATION ARROW BUTTON */}
+          <button
+            onClick={handleNext}
+            aria-label="Next Testimonial"
+            className="absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Carousel Stage Container */}
+          <div className="relative z-10 my-4">
             <div className="flex items-center justify-center gap-4 sm:gap-6 min-h-[360px] py-6">
               
               {TESTIMONIALS.map((item, idx) => {
-                // Calculate distance from active index
                 const isCenter = idx === currentIndex;
                 const isLeft = idx === (currentIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length;
                 const isRight = idx === (currentIndex + 1) % TESTIMONIALS.length;
 
-                // Render only center and adjacent cards on smaller screens, 5 on desktop
                 const isVisible = isCenter || isLeft || isRight;
-
                 if (!isVisible) return null;
 
                 return (
@@ -217,18 +263,18 @@ export const ReviewsSection: React.FC = () => {
                     animate={{
                       opacity: isCenter ? 1 : 0.75,
                       scale: isCenter ? 1.05 : 0.9,
-                      y: isCenter ? -28 : 12, // Elevates the center card upwards matching pin_testimonials.jpg
+                      y: isCenter ? -24 : 10,
                       zIndex: isCenter ? 30 : 10
                     }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className={`w-[270px] sm:w-[310px] shrink-0 bg-white rounded-3xl p-7 border transition-all duration-300 cursor-pointer relative flex flex-col justify-between ${
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className={`w-[270px] sm:w-[320px] shrink-0 bg-white rounded-3xl p-7 border transition-all duration-300 cursor-pointer relative flex flex-col justify-between ${
                       isCenter
                         ? 'border-slate-200 shadow-2xl shadow-pink-500/10 ring-2 ring-pink-500/20'
                         : 'border-slate-100 shadow-md hover:opacity-90'
                     }`}
                   >
                     <div>
-                      {/* Avatar Image centered at top */}
+                      {/* Avatar Image */}
                       <div className="flex justify-center mb-4">
                         <img
                           src={item.avatar}
@@ -244,9 +290,16 @@ export const ReviewsSection: React.FC = () => {
                         {item.name}
                       </h3>
 
-                      <p className="text-center text-xs font-semibold text-slate-400 mb-4">
+                      <p className="text-center text-xs font-semibold text-slate-400 mb-3">
                         {item.role} • <span className="text-slate-600">{item.company}</span>
                       </p>
+
+                      {/* Rating Stars */}
+                      <div className="flex justify-center gap-1 mb-4 text-amber-400">
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-amber-400 stroke-amber-400" />
+                        ))}
+                      </div>
 
                       {/* Review Content */}
                       <p className="text-center text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
@@ -254,17 +307,8 @@ export const ReviewsSection: React.FC = () => {
                       </p>
                     </div>
 
-                    {/* Bottom row: Helpful button & faint watermark quote mark "} " */}
-                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <button
-                        onClick={(e) => handleVote(item.id, e)}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-pink-600 bg-slate-50 hover:bg-pink-50 px-2.5 py-1 rounded-lg transition-colors"
-                      >
-                        <ThumbsUp className="w-3.5 h-3.5" />
-                        <span>{item.helpfulCount + (helpfulVotes[item.id] || 0)}</span>
-                      </button>
-
-                      {/* Faint Quote Watermark at bottom right of card */}
+                    {/* Watermark Quote */}
+                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-end">
                       <span className="text-slate-200 font-serif text-3xl font-bold select-none leading-none">
                         ”
                       </span>
@@ -275,37 +319,20 @@ export const ReviewsSection: React.FC = () => {
 
             </div>
 
-            {/* Navigation Controls (Arrows + Dots) */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={handlePrev}
-                className="w-11 h-11 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-pink-50 hover:text-pink-600 hover:border-pink-300 shadow-md flex items-center justify-center transition-all cursor-pointer"
-                aria-label="Previous Testimonial"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {/* Dot Indicators */}
-              <div className="flex items-center gap-2">
-                {TESTIMONIALS.map((_, dotIdx) => (
-                  <button
-                    key={dotIdx}
-                    onClick={() => setCurrentIndex(dotIdx)}
-                    className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                      currentIndex === dotIdx ? 'w-8 bg-pink-500' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={handleNext}
-                className="w-11 h-11 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-pink-50 hover:text-pink-600 hover:border-pink-300 shadow-md flex items-center justify-center transition-all cursor-pointer"
-                aria-label="Next Testimonial"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+            {/* Bottom Dot Indicators */}
+            <div className="flex items-center justify-center gap-2 mt-6">
+              {TESTIMONIALS.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => setCurrentIndex(dotIdx)}
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                    currentIndex === dotIdx ? 'w-8 bg-pink-500' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
+                  }`}
+                />
+              ))}
             </div>
+
           </div>
 
         </div>

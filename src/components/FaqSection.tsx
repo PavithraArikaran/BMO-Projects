@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 import { REAL_FAQS } from '../data/landingData';
-
-const APP_URL = "https://app.bmoprojects.in/";
 
 export const FaqSection: React.FC = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
@@ -12,62 +11,85 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-20 bg-white border-t border-slate-200 scroll-mt-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-24 bg-white border-t border-slate-200 scroll-mt-20 relative overflow-hidden">
 
-        <div className="text-center mb-14">
-          <span className="text-xs font-bold uppercase tracking-wider text-orange-600 bg-orange-100 border border-orange-200 px-3.5 py-1.5 rounded-full">
-            FAQ
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-4 mb-4 font-heading">
+      {/* Background Decorative Blob */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/30 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+        <div className="text-center mb-16">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            className="text-xs sm:text-sm font-bold uppercase tracking-wider text-orange-600 bg-orange-100 border border-orange-200 px-4 py-1.5 rounded-full inline-flex items-center gap-2 shadow-xs"
+          >
+            <HelpCircle className="w-4 h-4 text-orange-500" />
+            <span>Project FAQ</span>
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-3 font-heading"
+          >
             Frequently Asked <span className="text-gradient-orange">Questions</span>
-          </h2>
+          </motion.h2>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {REAL_FAQS.map((faq, index) => {
             const isOpen = openIdx === index;
             return (
-              <div
+              <motion.div
                 key={index}
-                className="rounded-xl border border-slate-200 bg-slate-50/60 overflow-hidden"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false }}
+                transition={{ delay: index * 0.05 }}
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen
+                  ? 'border-orange-300 bg-orange-50/30 shadow-lg shadow-orange-500/5 ring-1 ring-orange-400/30'
+                  : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-slate-900 hover:text-orange-600 transition-colors text-base font-heading"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-black text-slate-900 hover:text-orange-600 transition-colors text-base sm:text-lg font-heading cursor-pointer"
                 >
-                  <span>{faq.question}</span>
-                  <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180 text-orange-600' : ''}`} />
+                  <span className="flex items-center gap-3">
+                    <span className={`w-2 h-2 rounded-full transition-colors ${isOpen ? 'bg-orange-500 animate-pulse' : 'bg-slate-300'}`} />
+                    {faq.question}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-slate-500 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-orange-600' : ''}`} />
                 </button>
 
-                {isOpen && (
-                  <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-200/60 pt-3 bg-white">
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-orange-200/60 pt-4 bg-white/80">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Direct Link Banner */}
-        <div className="mt-10 p-6 rounded-2xl bg-orange-50 border border-orange-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h4 className="text-sm font-bold text-slate-900 font-heading">Ready to access your workspace?</h4>
-            <p className="text-xs text-slate-600">Open the app directly at app.bmoprojects.in</p>
-          </div>
-          <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-md shadow-orange-500/25 flex items-center gap-1.5 shrink-0"
-          >
-            <span>Go to App</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        </div>
+
 
       </div>
     </section>
   );
 };
+
+export default FaqSection;

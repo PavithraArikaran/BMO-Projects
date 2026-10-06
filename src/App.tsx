@@ -4,9 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeaturesSection } from './components/FeaturesSection';
 import { PerformanceAnalyticsSection } from './components/PerformanceAnalyticsSection';
-import { AppInterfaceSection } from './components/AppInterfaceSection';
 import { ReviewsSection } from './components/ReviewsSection';
-import { HowItWorks } from './components/HowItWorks';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 
@@ -29,17 +27,12 @@ export function App() {
         {/* 2. True 6 Core Features Grid (id="features") */}
         <FeaturesSection />
 
-        {/* 3. Performance Analytics & Leaderboard Section (id="performance-analytics") */}
+        {/* 3. Unified Performance Analytics & App Interface Showcase Section (id="performance-analytics" & id="app-interface") */}
         <PerformanceAnalyticsSection />
 
-        {/* 4. Task Management & Issue Interface Section (id="app-interface") */}
-        <AppInterfaceSection />
-
-        {/* 5. Reviews, Testimonials & Trustable Clients Section (id="reviews") */}
+        {/* 4. Reviews, Testimonials & Trustable Clients Section (id="reviews") */}
         <ReviewsSection />
 
-        {/* 6. Simple 3-Step Process (id="how-it-works") */}
-        <HowItWorks />
 
         {/* 7. FAQ (id="faq") */}
         <FaqSection />

@@ -1,145 +1,192 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, CheckCircle2, TrendingUp, Award, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
-import heroScreenshotImg from '../assets/performance_analytics.png';
+import {
+  ExternalLink,
+  Sparkles,
+  CheckCircle2,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  Award,
+  TrendingUp,
+} from 'lucide-react';
 
-const APP_URL = "https://app.bmoprojects.in/";
+const APP_URL = 'https://app.bmoprojects.in/';
 
 export const Hero: React.FC = () => {
   const scrollToAnalytics = () => {
-    const el = document.getElementById('performance-analytics') || document.getElementById('analytics-preview');
+    const el =
+      document.getElementById('performance-analytics') ||
+      document.getElementById('analytics-preview');
+
     if (el) {
-      const offset = 80;
+      const offset = 90;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = el.getBoundingClientRect().top;
       const offsetPosition = elementRect - bodyRect - offset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
-
-
   return (
-    <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-hero-glow overflow-hidden bg-white">
-      {/* Background Grid & Glows */}
-      <div className="absolute inset-0 bg-bright-grid opacity-60 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
+    <section className="relative overflow-hidden bg-white pt-28 pb-20 md:pt-36 md:pb-28 text-slate-900">
+      
+      {/* Background Ambient Grid & Glows */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-bright-grid opacity-[0.25]" />
+        <div className="absolute left-1/2 top-10 h-[500px] w-[750px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-orange-400/20 via-amber-300/20 to-orange-500/10 blur-[140px]" />
+      </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      {/* Main Centered Container */}
+      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+        
+        {/* Top Status Pill Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-orange-600 shadow-xs"
+        >
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <Sparkles className="h-4 w-4 text-orange-500" />
+          <span>Smart Task & Performance Platform</span>
+        </motion.div>
 
-          {/* Left Column: Text & Features (42% width on large screens) */}
-          <div className="w-full lg:w-[42%] text-center lg:text-left shrink-0">
+        {/* Main Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12] mb-6 max-w-4xl mx-auto"
+        >
+          Assign Tasks.{' '}
+          <span className="text-gradient-orange">Calculate Points.</span>{' '}
+          Elevate Performance.
+        </motion.h1>
 
-            {/* Top Pill Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs sm:text-sm font-bold uppercase tracking-wider mb-6 shadow-xs"
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
-              <span>Smart Task & Performance Platform</span>
-            </motion.div>
+        {/* Description Subtext
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-slate-600 text-base sm:text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto"
+        >
+          Empower your organization with real-time task dispatch, automated performance point calculations, SLA issue resolution tracking, and live team leaderboards.
+        </motion.p> */}
 
-            {/* Main Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-slate-900 tracking-tight leading-[1.15] mb-6 font-heading"
-            >
-              Assign Tasks.{' '}
-              <span className="text-gradient-orange">Calculate Points.</span>{' '}
-              Elevate Performance.
-            </motion.h1>
+        {/* 6 Feature Pills Matrix Grid (Centered) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3 mb-10 max-w-4xl mx-auto text-xs sm:text-sm font-extrabold text-slate-800"
+        >
+          <FeaturePill
+            icon={<CheckCircle2 />}
+            iconClass="text-orange-500"
+            text="Assign Task"
+          />
 
+          <FeaturePill
+            icon={<Zap />}
+            iconClass="text-amber-500"
+            text="Calculate Points"
+          />
 
-            {/* Feature Pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8 max-w-lg mx-auto lg:mx-0 text-xs sm:text-sm font-bold text-slate-800"
-            >
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <CheckCircle2 className="w-4.5 h-4.5 text-orange-500 shrink-0" />
-                <span>Assign Task</span>
-              </div>
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <Zap className="w-4.5 h-4.5 text-amber-500 shrink-0" />
-                <span>Calculate Points</span>
-              </div>
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <TrendingUp className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
-                <span>Daily Average</span>
-              </div>
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <ShieldCheck className="w-4.5 h-4.5 text-blue-500 shrink-0" />
-                <span>Issue Management</span>
-              </div>
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <Award className="w-4.5 h-4.5 text-orange-500 shrink-0" />
-                <span>Leaderboard</span>
-              </div>
-              <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs hover:border-orange-300 transition-colors">
-                <Award className="w-4.5 h-4.5 text-purple-500 shrink-0" />
-                <span>Performance Level</span>
-              </div>
-            </motion.div>
+          <FeaturePill
+            icon={<TrendingUp />}
+            iconClass="text-emerald-500"
+            text="Daily Average"
+          />
 
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
-            >
-              <a
-                href={APP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl text-base sm:text-lg font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-500/30 transition-all duration-200 flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 group"
-              >
-                <span>Go to App</span>
-                <ExternalLink className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-              </a>
+          <FeaturePill
+            icon={<ShieldCheck />}
+            iconClass="text-blue-500"
+            text="Issue SLA"
+          />
 
-              <button
-                onClick={scrollToAnalytics}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl text-base sm:text-lg font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer"
-              >
-                <span>View Analytics</span>
-                <ArrowRight className="w-5 h-5 text-slate-500" />
-              </button>
-            </motion.div>
+          <FeaturePill
+            icon={<Award />}
+            iconClass="text-orange-500"
+            text="Leaderboard"
+          />
 
-          </div>
+          <FeaturePill
+            icon={<Award />}
+            iconClass="text-purple-500"
+            text="Level Evaluator"
+          />
+        </motion.div>
 
-          {/* Right Column: High-Res Taller Screenshot Display (58% width on large screens) */}
-          <div className="w-full lg:w-[68%] relative">
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* <DeviceMockup
-                imageSrc={heroScreenshotImg}
-                altText="BMO Projects Performance Analytics Screenshot"
+        {/* Action CTAs (Centered) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-8 py-4 inline-flex items-center justify-center gap-2.5 rounded-2xl text-base sm:text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200 transform hover:-translate-y-0.5 group"
+          >
+            <span>Go to App</span>
+            <ExternalLink className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
 
-              // maxHeight=" h-[640px]"
-              /> */}
-              <img
-                src={heroScreenshotImg}
-                alt={"BMO Projects Performance Analytics Screenshot"}
-                className="w-full h-[550px] rounded-2xl "
-              />
-            </motion.div>
-          </div>
+          <button
+            onClick={scrollToAnalytics}
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl text-base sm:text-lg font-black text-slate-800 bg-white hover:bg-slate-50 border border-slate-200/90 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer hover:shadow-md transform hover:-translate-y-0.5"
+          >
+            <span>View Analytics</span>
+            <ArrowRight className="h-5 w-5 text-slate-600 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
+        </motion.div>
 
-        </div>
       </div>
     </section>
   );
 };
+
+/* =========================================================
+   FEATURE PILL HELPER COMPONENT
+========================================================= */
+
+interface FeaturePillProps {
+  icon: React.ReactNode;
+  iconClass: string;
+  text: string;
+}
+
+const FeaturePill: React.FC<FeaturePillProps> = ({
+  icon,
+  iconClass,
+  text,
+}) => {
+  return (
+    <motion.div
+      whileHover={{
+        y: -3,
+        scale: 1.03,
+      }}
+      className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/90 bg-white p-3 text-xs sm:text-sm font-extrabold text-slate-800 shadow-xs hover:border-orange-400 hover:shadow-md transition-all"
+    >
+      <span className={`h-4 w-4 shrink-0 ${iconClass}`}>
+        {React.cloneElement(
+          icon as React.ReactElement<{ className?: string }>,
+          {
+            className: 'h-4 w-4',
+          }
+        )}
+      </span>
+      <span>{text}</span>
+    </motion.div>
+  );
+};
+
+export default Hero;
