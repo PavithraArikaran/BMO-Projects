@@ -81,7 +81,6 @@ export const Hero: React.FC = () => {
       setIsSubmitted(true);
     }, 1000);
   };
-
   const handleResetForm = () => {
     setFormData({
       name: '',
@@ -100,9 +99,9 @@ export const Hero: React.FC = () => {
       document.getElementById('analytics-preview');
 
     if (lenis && el) {
-      lenis.scrollTo(el, { offset: -90, duration: 1.2 });
+      lenis.scrollTo(el, { offset: -15, duration: 1.2 });
     } else if (el) {
-      const elementTop = el.getBoundingClientRect().top + window.scrollY - 90;
+      const elementTop = el.getBoundingClientRect().top + window.scrollY - 15;
       window.scrollTo({
         top: elementTop,
         behavior: 'smooth',

@@ -72,9 +72,9 @@ export const Navbar: React.FC = () => {
 
     if (element) {
       if (lenis) {
-        lenis.scrollTo(element, { offset: -90, duration: 1.2 });
+        lenis.scrollTo(element, { offset: -15, duration: 1.2 });
       } else {
-        const yOffset = 90;
+        const yOffset = 15;
         const targetY = Math.max(0, element.getBoundingClientRect().top + window.scrollY - yOffset);
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
