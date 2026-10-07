@@ -1,23 +1,34 @@
-import React, { useState, useEffect,useRef } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ExternalLink, Sparkles, Home, LayoutGrid, BarChart3, Star, HelpCircle } from 'lucide-react';
+import {
+  Menu,
+  X,
+  ExternalLink,
+  Sparkles,
+  Home,
+  LayoutGrid,
+  BarChart3,
+  Star,
+  HelpCircle,
+} from 'lucide-react';
 import bmoLogo from '../assets/bmo-logo.jpeg';
 
-const APP_URL = "https://app.bmoprojects.in/";
+const APP_URL = 'https://app.bmoprojects.in/';
 
 interface NavItem {
   id: string;
   label: string;
+  path: string;
   icon: React.ReactNode;
 }
 
+// 5 Main Nav Items (No separate Contact in top menu bar)
 const NAV_ITEMS: NavItem[] = [
-  { id: 'hero', label: 'Home', icon: <Home className="w-4 h-4" /> },
-  { id: 'features', label: 'Features', icon: <LayoutGrid className="w-4 h-4" /> },
-  { id: 'performance-analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" /> },
-  { id: 'reviews', label: 'Reviews', icon: <Star className="w-4 h-4" /> },
-  { id: 'faq', label: 'FAQ', icon: <HelpCircle className="w-4 h-4" /> },
+  { id: 'hero', label: 'Home', path: '/Home', icon: <Home className="w-4 h-4" /> },
+  { id: 'features', label: 'Features', path: '/Features', icon: <LayoutGrid className="w-4 h-4" /> },
+  { id: 'performance-analytics', label: 'Analytics', path: '/Analytics', icon: <BarChart3 className="w-4 h-4" /> },
+  { id: 'reviews', label: 'Reviews', path: '/Reviews', icon: <Star className="w-4 h-4" /> },
+  { id: 'faq', label: 'FAQ', path: '/FAQ', icon: <HelpCircle className="w-4 h-4" /> },
 ];
 
 export const Navbar: React.FC = () => {
@@ -27,29 +38,108 @@ export const Navbar: React.FC = () => {
   const isManualClickRef = useRef(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Active section scroll spy listener
+  const getPathForId = (id: string) => {
+    const item = NAV_ITEMS.find((n) => n.id === id);
+    return item ? item.path : '/Home';
+  };
+
+  const getIdForPath = (pathname: string) => {
+    const cleanPath = pathname.toLowerCase().replace(/\/$/, '');
+    if (!cleanPath || cleanPath === '' || cleanPath === '/home') return 'hero';
+    if (cleanPath === '/features') return 'features';
+    if (cleanPath === '/analytics') return 'performance-analytics';
+    if (cleanPath === '/reviews') return 'reviews';
+    if (cleanPath === '/faq') return 'faq';
+    return 'hero';
+  };
+
+  const performScroll = (id: string) => {
+    const lenis = (window as any).lenis;
+
+    if (id === 'hero') {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    let element = document.getElementById(id);
+    if (!element && id === 'performance-analytics') {
+      element = document.getElementById('analytics-preview');
+    }
+
+    if (element) {
+      if (lenis) {
+        lenis.scrollTo(element, { offset: -90, duration: 1.2 });
+      } else {
+        const yOffset = 90;
+        const targetY = Math.max(0, element.getBoundingClientRect().top + window.scrollY - yOffset);
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const scrollToSection = (id: string, updateUrl = true) => {
+    setActiveNav(id);
+    setMobileMenuOpen(false);
+
+    if (updateUrl) {
+      const targetPath = getPathForId(id);
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({ id }, '', targetPath);
+      }
+    }
+
+    // Lock scroll spy for 1500ms to allow smooth scroll animation to finish completely without jumping
+    isManualClickRef.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isManualClickRef.current = false;
+    }, 1500);
+
+    performScroll(id);
+  };
+
+  // Scroll spy listener with exact section bounding calculations
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Don't override activeNav while manual scroll animation is in progress
+      // Do NOT interrupt activeNav/URL while smooth scroll is animating to a clicked section
       if (isManualClickRef.current) return;
 
-      const sectionIds = ['hero', 'features', 'performance-analytics', 'reviews', 'faq'];
-      const scrollPosition = window.scrollY + 160;
+      const scrollY = window.scrollY;
 
-      if (window.scrollY < 180) {
-        setActiveNav('hero');
+      // Top of page -> Home
+      if (scrollY < 120) {
+        if (activeNav !== 'hero') {
+          setActiveNav('hero');
+          if (window.location.pathname !== '/Home' && window.location.pathname !== '/') {
+            window.history.replaceState({ id: 'hero' }, '', '/Home');
+          }
+        }
         return;
       }
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i];
-        const element = document.getElementById(id);
-        if (element) {
-          const top = element.offsetTop;
-          if (scrollPosition >= top) {
-            setActiveNav(id);
+      // Check section positions from bottom up (FAQ, Reviews, Analytics, Features, Hero)
+      const sectionOrder = ['faq', 'reviews', 'performance-analytics', 'features', 'hero'];
+      const triggerY = scrollY + 220;
+
+      for (const id of sectionOrder) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const absoluteTop = rect.top + scrollY;
+          if (triggerY >= absoluteTop - 50) {
+            if (activeNav !== id) {
+              setActiveNav(id);
+              const targetPath = getPathForId(id);
+              if (window.location.pathname !== targetPath) {
+                window.history.replaceState({ id }, '', targetPath);
+              }
+            }
             break;
           }
         }
@@ -57,50 +147,32 @@ export const Navbar: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeNav]);
 
-  const scrollToSection = (id: string) => {
-    setActiveNav(id);
-    setMobileMenuOpen(false);
-
-    // Lock manual click selection to avoid scroll spy jump while scrolling
-    isManualClickRef.current = true;
-    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    scrollTimeoutRef.current = setTimeout(() => {
-      isManualClickRef.current = false;
-    }, 1200);
-
-    const executeScroll = () => {
-      if (id === 'hero') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        return;
-      }
-
-      let element = document.getElementById(id);
-      if (!element && id === 'performance-analytics') {
-        element = document.getElementById('analytics-preview');
-      }
-
-      if (element) {
-        const yOffset = 80;
-        // Static offsetTop ensures exact coordinates regardless of mobile drawer collapse state
-        const targetY = Math.max(0, element.offsetTop - yOffset);
-
-        window.scrollTo({
-          top: targetY,
-          behavior: 'smooth'
-        });
+  // Initial URL check & browser back/forward listener
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const initialId = getIdForPath(window.location.pathname);
+      setActiveNav(initialId);
+      if (initialId !== 'hero') {
+        setTimeout(() => {
+          performScroll(initialId);
+        }, 400);
       }
     };
 
-    // Small delay allows mobile touch event to register and menu drawer to start closing cleanly
-    setTimeout(executeScroll, 70);
-  };
+    syncFromUrl();
+
+    const handlePopState = () => {
+      const id = getIdForPath(window.location.pathname);
+      setActiveNav(id);
+      performScroll(id);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   return (
     <header
@@ -116,10 +188,7 @@ export const Navbar: React.FC = () => {
           {/* Clean Brand Logo */}
           <div
             className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => scrollToSection('hero', true)}
           >
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-white border border-slate-200 shadow-xs flex items-center justify-center group-hover:border-orange-400 group-hover:scale-105 transition-all duration-300">
               <img
@@ -141,7 +210,7 @@ export const Navbar: React.FC = () => {
               return (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => scrollToSection(item.id, true)}
                   className={`relative px-3.5 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-2 text-sm ${
                     isActive
                       ? 'text-orange-600 font-black'
@@ -220,7 +289,7 @@ export const Navbar: React.FC = () => {
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => scrollToSection(item.id)}
+                    onClick={() => scrollToSection(item.id, true)}
                     className={`w-full text-left py-3 px-4 rounded-xl transition-all flex items-center gap-3 cursor-pointer ${
                       isActive
                         ? 'bg-orange-50 text-orange-600 font-extrabold border border-orange-200'

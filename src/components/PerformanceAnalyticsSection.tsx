@@ -112,7 +112,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
   return (
     <section
       id="performance-analytics"
-      className="py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-t border-slate-200 scroll-mt-20 overflow-hidden"
+      className="py-14 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-t border-slate-200 scroll-mt-20 overflow-hidden"
     >
       {/* Anchor for App Interface section link */}
       <div id="app-interface" className="scroll-mt-20" />

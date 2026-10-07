@@ -166,14 +166,14 @@ export const ReviewsSection: React.FC = () => {
   return (
     <section 
       id="reviews" 
-      className="py-24 md:py-32 bg-[#FAF7F2] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative"
+      className="py-24 md:py-12 bg-[#FAF7F2] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ================= 1. OUR CLIENTS LOGO BAR (Continuous Single Row Infinite Marquee) ================= */}
-        <div className="mb-20 text-center">
+        <div className="mb-14 text-center">
           
           <div className="relative bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-xl shadow-slate-200/50 overflow-hidden">
             

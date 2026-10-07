@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Lenis from 'lenis';
 import { Preloader } from './components/Preloader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -10,6 +11,32 @@ import { Footer } from './components/Footer';
 
 export function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.5,
+    });
+
+    (window as any).lenis = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      (window as any).lenis = null;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-orange-500 selection:text-white overflow-x-hidden">

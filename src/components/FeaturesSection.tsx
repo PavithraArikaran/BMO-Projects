@@ -99,7 +99,7 @@ export const FeaturesSection: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
   return (
-    <section id="features" className="py-20 md:py-28 bg-[#FAF7F2] text-slate-900 border-y border-stone-200/80 scroll-mt-20 relative overflow-hidden">
+    <section id="features" className="py-14 md:py-18 bg-[#FAF7F2] text-slate-900 border-y border-stone-200/80 scroll-mt-20 relative overflow-hidden">
       
       {/* Background Subtle Gradient Blobs */}
       <div className="absolute top-10 right-10 w-[500px] h-[500px] bg-amber-100/60 rounded-full blur-[130px] pointer-events-none" />

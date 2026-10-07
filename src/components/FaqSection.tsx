@@ -12,7 +12,7 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-24 bg-white border-t border-slate-200 scroll-mt-20 relative overflow-hidden">
+    <section id="faq" className="py-14 bg-white border-t border-slate-200 scroll-mt-20 relative overflow-hidden">
 
       {/* Background Decorative Blobs */}
       <div className="absolute top-1/2 left-10 -translate-y-1/2 w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-[140px] pointer-events-none" />
