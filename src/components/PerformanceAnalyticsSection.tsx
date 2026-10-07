@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, BarChart3, Clock, ListTodo, CheckSquare, Lock, ChevronLeft, ChevronRight, X, Maximize2, ExternalLink } from 'lucide-react';
+import { Sparkles, BarChart3, Clock, ListTodo, CheckSquare, Lock, ChevronLeft, ChevronRight, X, ExternalLink } from 'lucide-react';
 
 import dashboard from '../assets/dashboard_tasks.png';
 import performance from '../assets/performance_analytics.png';
@@ -64,38 +64,50 @@ const SHOWCASE_ITEMS: ScreenshotItem[] = [
 
 export const PerformanceAnalyticsSection: React.FC = () => {
   const [selectedModalItem, setSelectedModalItem] = useState<ScreenshotItem | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Smooth automatic scrolling effect (pauses when hovered or screenshot modal is open)
+  const scrollToCard = (index: number) => {
+    if (scrollRef.current) {
+      const firstCard = scrollRef.current.children[0] as HTMLElement;
+      const cardWidth = firstCard ? firstCard.offsetWidth : 440;
+      const gap = 24;
+      scrollRef.current.scrollTo({ left: index * (cardWidth + gap), behavior: 'smooth' });
+    }
+  };
+
+  const handleNext = () => {
+    const nextIdx = (currentIndex + 1) % SHOWCASE_ITEMS.length;
+    setCurrentIndex(nextIdx);
+    scrollToCard(nextIdx);
+  };
+
+  const handlePrev = () => {
+    const prevIdx = (currentIndex - 1 + SHOWCASE_ITEMS.length) % SHOWCASE_ITEMS.length;
+    setCurrentIndex(prevIdx);
+    scrollToCard(prevIdx);
+  };
+
+  // Fast & smooth automatic scrolling effect (2.5s speed, keeps active screenshot centered)
   React.useEffect(() => {
     if (isHovered || selectedModalItem !== null) return;
 
     const timer = setInterval(() => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        if (scrollLeft + clientWidth >= scrollWidth - 20) {
-          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          scrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+      setCurrentIndex((prev) => {
+        const next = (prev + 1) % SHOWCASE_ITEMS.length;
+        if (scrollRef.current) {
+          const firstCard = scrollRef.current.children[0] as HTMLElement;
+          const cardWidth = firstCard ? firstCard.offsetWidth : 440;
+          const gap = 24;
+          scrollRef.current.scrollTo({ left: next * (cardWidth + gap), behavior: 'smooth' });
         }
-      }
-    }, 3500);
+        return next;
+      });
+    }, 2500);
 
     return () => clearInterval(timer);
   }, [isHovered, selectedModalItem]);
-
-  const handleScrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -420, behavior: 'smooth' });
-    }
-  };
-
-  const handleScrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 420, behavior: 'smooth' });
-    }
-  };
 
   return (
     <section
@@ -109,21 +121,22 @@ export const PerformanceAnalyticsSection: React.FC = () => {
 
         {/* Section Header Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 shadow-xs"
         >
-          <Sparkles className="w-4 h-4 text-orange-600" />
+          <Sparkles className="w-4 h-4 text-orange-600 animate-spin-slow" />
           <span>Unified App & Analytics Showcase</span>
         </motion.div>
 
         {/* Section Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-heading mb-4 max-w-4xl mx-auto"
         >
           Analytics & App Interface <span className="text-gradient-orange">Showcase</span>
@@ -131,8 +144,12 @@ export const PerformanceAnalyticsSection: React.FC = () => {
 
       </div>
 
-      {/* ================= SMOOTH AUTO-SCROLL SHOWCASE STAGE ================= */}
-      <div
+      {/* ================= CENTER-FOCUSED AUTO-SCROLL SHOWCASE STAGE ================= */}
+      <motion.div
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.15 }}
+        transition={{ duration: 0.7, delay: 0.2 }}
         className="relative max-w-[100vw] py-6"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -140,82 +157,103 @@ export const PerformanceAnalyticsSection: React.FC = () => {
         
         {/* Navigation Manual Arrow Buttons */}
         <button
-          onClick={handleScrollLeft}
+          onClick={handlePrev}
           aria-label="Scroll left"
-          className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl text-slate-800 hover:text-orange-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
+          className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl text-slate-800 hover:text-orange-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
 
         <button
-          onClick={handleScrollRight}
+          onClick={handleNext}
           aria-label="Scroll right"
-          className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl text-slate-800 hover:text-orange-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
+          className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl text-slate-800 hover:text-orange-600 hover:bg-white hover:scale-110 transition-all cursor-pointer"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
 
-        {/* Scroll Container */}
+        {/* Center Padding Scroll Container */}
         <div
           ref={scrollRef}
-          className="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-smooth px-8 py-4"
+          className="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-smooth px-[calc(50vw-160px)] sm:px-[calc(50vw-210px)] md:px-[calc(50vw-240px)] py-8"
         >
-          {SHOWCASE_ITEMS.map((item) => (
-            <motion.div
-              key={item.id}
-              whileHover={{ y: -10, scale: 1.03 }}
-              onClick={() => setSelectedModalItem(item)}
-              className="w-[320px] sm:w-[420px] md:w-[480px] shrink-0 bg-white rounded-3xl border border-slate-200/90 shadow-xl hover:shadow-2xl hover:border-orange-300 transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col justify-between"
-            >
-              {/* Browser Titlebar Header */}
-              <div className="bg-slate-100/90 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          {SHOWCASE_ITEMS.map((item, idx) => {
+            const isCenter = idx === currentIndex;
+            return (
+              <motion.div
+                key={item.id}
+                animate={{
+                  scale: isCenter ? 1.06 : 0.92,
+                  opacity: isCenter ? 1 : 0.65,
+                }}
+                transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+                onClick={() => {
+                  setCurrentIndex(idx);
+                  scrollToCard(idx);
+                  setSelectedModalItem(item);
+                }}
+                className={`w-[320px] sm:w-[420px] md:w-[480px] shrink-0 bg-white rounded-3xl border transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col justify-between ${
+                  isCenter
+                    ? 'border-orange-400 shadow-2xl shadow-orange-500/20 ring-4 ring-orange-400/20'
+                    : 'border-slate-200/90 shadow-md hover:opacity-90'
+                }`}
+              >
+                {/* Browser Titlebar Header */}
+                <div className="bg-slate-100/90 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  </div>
+
+                  <span className="text-[11px] font-mono text-slate-600 font-bold bg-white px-2.5 py-0.5 rounded border border-slate-200 truncate max-w-[200px]">
+                    app.bmoprojects.in/{item.id}
+                  </span>
+
+                  <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${item.badgeColor}`}>
+                    {item.icon}
+                  </span>
                 </div>
 
-                <span className="text-[11px] font-mono text-slate-600 font-bold bg-white px-2.5 py-0.5 rounded border border-slate-200 truncate max-w-[200px]">
-                  app.bmoprojects.in/{item.id}
-                </span>
+                {/* Screenshot Image Frame */}
+                <div className="relative overflow-hidden bg-slate-100 aspect-[16/10]">
+                  <img
+                    src={item.imgSrc}
+                    alt={item.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
 
-                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${item.badgeColor}`}>
-                  {item.icon}
-                </span>
-              </div>
+                {/* Card Footer Text */}
+                <div className="p-5 border-t border-slate-100 bg-white">
+                  <h3 className="text-base font-black text-slate-900 font-heading mb-1 text-left">
+                    {item.title}
+                  </h3>
+                </div>
 
-              {/* Screenshot Image Frame */}
-              <div className="relative overflow-hidden bg-slate-100 aspect-[16/10]">
-                <img
-                  src={item.imgSrc}
-                  alt={item.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                />
+              </motion.div>
+            );
+          })}
+        </div>
 
-                {/* Hover Zoom Overlay
-                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
-                  <div className="px-4 py-2 rounded-xl bg-white text-slate-900 font-extrabold text-xs shadow-lg flex items-center gap-2">
-                    <Maximize2 className="w-4 h-4 text-orange-500" />
-                    <span>Click to Zoom</span>
-                  </div>
-                </div> */}
-              </div>
-
-              {/* Card Footer Text */}
-              <div className="p-5 border-t border-slate-100 bg-white">
-                <h3 className="text-base font-black text-slate-900 font-heading mb-1 text-left">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-600 font-medium text-left line-clamp-2">
-                  {item.subtitle}
-                </p>
-              </div>
-
-            </motion.div>
+        {/* Navigation Dot Indicators */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          {SHOWCASE_ITEMS.map((_, dotIdx) => (
+            <button
+              key={dotIdx}
+              onClick={() => {
+                setCurrentIndex(dotIdx);
+                scrollToCard(dotIdx);
+              }}
+              aria-label={`Go to screenshot ${dotIdx + 1}`}
+              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                currentIndex === dotIdx ? 'w-8 bg-orange-500' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+              }`}
+            />
           ))}
         </div>
 
-      </div>
+      </motion.div>
 
       {/* ================= HIGH RES LIGHTBOX ZOOM MODAL ================= */}
       <AnimatePresence>
@@ -244,9 +282,6 @@ export const PerformanceAnalyticsSection: React.FC = () => {
                     <h3 className="text-base font-bold text-white">
                       {selectedModalItem.title}
                     </h3>
-                    <p className="text-xs text-slate-400">
-                      {selectedModalItem.subtitle}
-                    </p>
                   </div>
                 </div>
 

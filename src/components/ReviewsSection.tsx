@@ -151,12 +151,12 @@ export const ReviewsSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Automatic smooth scroll/rotation timer
+  // Fast & smooth automatic rotation timer (2.7s speed)
   useEffect(() => {
     if (isHovered) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 4500);
+    }, 2700);
     return () => clearInterval(timer);
   }, [isHovered]);
 
@@ -189,8 +189,8 @@ export const ReviewsSection: React.FC = () => {
               {CLIENT_LOGOS.map((client, idx) => (
                 <motion.div
                   key={idx}
-                  whileHover={{ y: -3, scale: 1.04 }}
-                  className="w-full h-16 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-orange-300 transition-all duration-300 flex items-center justify-center p-3 cursor-pointer group"
+                  whileHover={{ y: -4, scale: 1.06 }}
+                  className="w-full h-16 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-pink-400 transition-all duration-300 flex items-center justify-center p-3 cursor-pointer group"
                 >
                   <div className="transition-transform duration-300 group-hover:scale-105">
                     {client.svg}
@@ -217,11 +217,11 @@ export const ReviewsSection: React.FC = () => {
               What our Clients say!
             </h2>
             
-            {/* Styled Pink/Red underline bar with dot */}
+            {/* Styled Pink/Red underline bar with dot
             <div className="flex items-center justify-center gap-2 mt-2">
-              <div className="h-1 w-24 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" />
-              <div className="w-2.5 h-2.5 bg-pink-500 rounded-full" />
-            </div>
+              <div className="h-1.5 w-24 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" />
+              <div className="w-3 h-3 bg-pink-500 rounded-full animate-ping" />
+            </div> */}
           </div>
 
           {/* LEFT CORNER FIXED NAVIGATION ARROW BUTTON */}
@@ -259,28 +259,28 @@ export const ReviewsSection: React.FC = () => {
                     key={item.id}
                     onClick={() => setCurrentIndex(idx)}
                     layout
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.85 }}
                     animate={{
-                      opacity: isCenter ? 1 : 0.75,
-                      scale: isCenter ? 1.05 : 0.9,
-                      y: isCenter ? -24 : 10,
+                      opacity: isCenter ? 1 : 0.7,
+                      scale: isCenter ? 1.08 : 0.88,
+                      y: isCenter ? -20 : 10,
                       zIndex: isCenter ? 30 : 10
                     }}
-                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
                     className={`w-[270px] sm:w-[320px] shrink-0 bg-white rounded-3xl p-7 border transition-all duration-300 cursor-pointer relative flex flex-col justify-between ${
                       isCenter
-                        ? 'border-slate-200 shadow-2xl shadow-pink-500/10 ring-2 ring-pink-500/20'
+                        ? 'border-pink-400 shadow-2xl shadow-pink-500/20 ring-2 ring-pink-500/30 bg-gradient-to-b from-white via-pink-50/20 to-white'
                         : 'border-slate-100 shadow-md hover:opacity-90'
                     }`}
                   >
                     <div>
-                      {/* Avatar Image */}
-                      <div className="flex justify-center mb-4">
+                      {/* Avatar Image with Pulsing Ring */}
+                      <div className="flex justify-center mb-4 relative">
                         <img
                           src={item.avatar}
                           alt={item.name}
-                          className={`w-16 h-16 rounded-full object-cover border-2 shadow-sm ${
-                            isCenter ? 'border-pink-500/80 ring-4 ring-pink-100' : 'border-slate-200'
+                          className={`w-16 h-16 rounded-full object-cover border-2 shadow-md transition-all duration-300 ${
+                            isCenter ? 'border-pink-500 scale-110 ring-4 ring-pink-200' : 'border-slate-200'
                           }`}
                         />
                       </div>
@@ -291,18 +291,24 @@ export const ReviewsSection: React.FC = () => {
                       </h3>
 
                       <p className="text-center text-xs font-semibold text-slate-400 mb-3">
-                        {item.role} • <span className="text-slate-600">{item.company}</span>
+                        {item.role} • <span className="text-pink-600 font-bold">{item.company}</span>
                       </p>
 
-                      {/* Rating Stars */}
+                      {/* Rating Stars with Pop Animation */}
                       <div className="flex justify-center gap-1 mb-4 text-amber-400">
                         {[...Array(item.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-amber-400 stroke-amber-400" />
+                          <motion.div
+                            key={i}
+                            animate={isCenter ? { scale: [1, 1.2, 1] } : {}}
+                            transition={{ duration: 0.4, delay: i * 0.08 }}
+                          >
+                            <Star className="w-4 h-4 fill-amber-400 stroke-amber-400" />
+                          </motion.div>
                         ))}
                       </div>
 
                       {/* Review Content */}
-                      <p className="text-center text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                      <p className="text-center text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
                         "{item.content}"
                       </p>
                     </div>
