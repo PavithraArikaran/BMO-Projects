@@ -12,7 +12,7 @@ export function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-orange-500 selection:text-white overflow-x-hidden">
       {/* 0. Initial Project Preloader Animation */}
       <Preloader onComplete={() => setIsLoaded(true)} />
 
@@ -24,24 +24,20 @@ export function App() {
         {/* 1. Bright Hero Section */}
         <Hero />
 
-        {/* 2. True 6 Core Features Grid (id="features") */}
+        {/* 2. Core Features Grid (id="features") */}
         <FeaturesSection />
 
-        {/* 3. Unified Performance Analytics & App Interface Showcase Section (id="performance-analytics" & id="app-interface") */}
+        {/* 3. Performance Analytics Showcase Section (id="performance-analytics") */}
         <PerformanceAnalyticsSection />
 
-        {/* 4. Reviews, Testimonials & Trustable Clients Section (id="reviews") */}
+        {/* 4. Reviews & Testimonials Section (id="reviews") */}
         <ReviewsSection />
 
-
-        {/* 7. FAQ (id="faq") */}
+        {/* 5. FAQ (id="faq") */}
         <FaqSection />
-
-        {/* 8. Simple CTA Banner */}
-        {/* <CtaBanner /> */}
       </main>
 
-      {/* Footer with "Crafted with ❤️ by BMO SOFTWARE" */}
+      {/* Footer */}
       <Footer />
     </div>
   );

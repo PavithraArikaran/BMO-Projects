@@ -26,7 +26,7 @@ export const REAL_FEATURES: FeatureItem[] = [
     iconName: "Calculator",
     badge: "Scoring Engine",
     highlights: [
-      "Live Total Score calculation (e.g. +16.67 pts)",
+      "Live Total Score calculation (e.g. +96.67 pts)",
       "Transparent individual and team score tallies"
     ]
   },
@@ -122,7 +122,7 @@ export const REAL_FAQS = [
   },
   {
     question: "How does BMO Projects calculate points and daily averages?",
-    answer: "Points are computed automatically by the scoring engine based on task completion status, estimated hours vs. actual worked hours ratio, and defect resolution SLA. Your Daily Average score (e.g., +16.67 pts) is calculated across your 30-day activity history."
+    answer: "Points are computed automatically by the scoring engine based on task completion status, estimated hours vs. actual worked hours ratio, and defect resolution SLA. Your Daily Average score (e.g., +96.67 pts) is calculated across your 30-day activity history."
   },
   {
     question: "How does task assignment and worked hours tracking function?",

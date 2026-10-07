@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ExternalLink, Sparkles, LayoutGrid, BarChart3, Star, HelpCircle } from 'lucide-react';
+import { Menu, X, ExternalLink, Sparkles, Home, LayoutGrid, BarChart3, Star, HelpCircle } from 'lucide-react';
 import bmoLogo from '../assets/bmo-logo.jpeg';
 
 const APP_URL = "https://app.bmoprojects.in/";
@@ -12,6 +13,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
+  { id: 'hero', label: 'Home', icon: <Home className="w-4 h-4" /> },
   { id: 'features', label: 'Features', icon: <LayoutGrid className="w-4 h-4" /> },
   { id: 'performance-analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" /> },
   { id: 'reviews', label: 'Reviews', icon: <Star className="w-4 h-4" /> },
@@ -21,15 +23,25 @@ const NAV_ITEMS: NavItem[] = [
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState('features');
+  const [activeNav, setActiveNav] = useState('hero');
+  const isManualClickRef = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Active section scroll spy listener
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sectionIds = ['features', 'performance-analytics', 'reviews', 'faq'];
-      const scrollPosition = window.scrollY + 140;
+      // Don't override activeNav while manual scroll animation is in progress
+      if (isManualClickRef.current) return;
+
+      const sectionIds = ['hero', 'features', 'performance-analytics', 'reviews', 'faq'];
+      const scrollPosition = window.scrollY + 160;
+
+      if (window.scrollY < 180) {
+        setActiveNav('hero');
+        return;
+      }
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const id = sectionIds[i];
@@ -53,24 +65,41 @@ export const Navbar: React.FC = () => {
     setActiveNav(id);
     setMobileMenuOpen(false);
 
-    // Use requestAnimationFrame / setTimeout to ensure drawer state update doesn't block scrolling
-    setTimeout(() => {
+    // Lock manual click selection to avoid scroll spy jump while scrolling
+    isManualClickRef.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isManualClickRef.current = false;
+    }, 1200);
+
+    const executeScroll = () => {
+      if (id === 'hero') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        return;
+      }
+
       let element = document.getElementById(id);
       if (!element && id === 'performance-analytics') {
         element = document.getElementById('analytics-preview');
       }
 
       if (element) {
-        const yOffset = -80;
-        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementPosition + yOffset;
+        const yOffset = 80;
+        // Static offsetTop ensures exact coordinates regardless of mobile drawer collapse state
+        const targetY = Math.max(0, element.offsetTop - yOffset);
 
         window.scrollTo({
-          top: offsetPosition,
+          top: targetY,
           behavior: 'smooth'
         });
       }
-    }, 60);
+    };
+
+    // Small delay allows mobile touch event to register and menu drawer to start closing cleanly
+    setTimeout(executeScroll, 70);
   };
 
   return (
