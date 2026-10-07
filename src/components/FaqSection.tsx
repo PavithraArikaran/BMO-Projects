@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle, MessageSquare } from 'lucide-react';
+import { ChevronDown, MessageSquare } from 'lucide-react';
 import { REAL_FAQS } from '../data/landingData';
 import questionsIllustration from '../assets/Questions-pana.png';
 
@@ -57,15 +57,6 @@ export const FaqSection: React.FC = () => {
           <div className="lg:col-span-7">
             
             <div className="text-left mb-8">
-              <motion.span
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                className="text-xs sm:text-sm font-bold uppercase tracking-wider text-orange-600 bg-orange-100 border border-orange-200 px-4 py-1.5 rounded-full inline-flex items-center gap-2 shadow-xs mb-3"
-              >
-                <HelpCircle className="w-4 h-4 text-orange-500" />
-                <span>Project FAQ</span>
-              </motion.span>
 
               <motion.h2
                 initial={{ opacity: 0, y: 15 }}

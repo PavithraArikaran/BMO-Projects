@@ -13,7 +13,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'features', label: 'Features', icon: <LayoutGrid className="w-4 h-4" /> },
-  { id: 'performance-analytics', label: 'Analytics & Showcase', icon: <BarChart3 className="w-4 h-4" /> },
+  { id: 'performance-analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" /> },
   { id: 'reviews', label: 'Reviews', icon: <Star className="w-4 h-4" /> },
   { id: 'faq', label: 'FAQ', icon: <HelpCircle className="w-4 h-4" /> },
 ];
@@ -53,19 +53,24 @@ export const Navbar: React.FC = () => {
     setActiveNav(id);
     setMobileMenuOpen(false);
 
-    let element = document.getElementById(id);
-    if (!element && id === 'performance-analytics') {
-      element = document.getElementById('analytics-preview');
-    }
+    // Use requestAnimationFrame / setTimeout to ensure drawer state update doesn't block scrolling
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      if (!element && id === 'performance-analytics') {
+        element = document.getElementById('analytics-preview');
+      }
 
-    if (element) {
-      const yOffset = -85;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
-      });
-    }
+      if (element) {
+        const yOffset = -80;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition + yOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 60);
   };
 
   return (
@@ -81,13 +86,13 @@ export const Navbar: React.FC = () => {
 
           {/* Clean Brand Logo */}
           <div
-            className="flex items-center gap-3 cursor-pointer group shrink-0"
+            className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0"
             onClick={() => {
               setMobileMenuOpen(false);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-white border border-slate-200 shadow-xs flex items-center justify-center group-hover:border-orange-400 group-hover:scale-105 transition-all duration-300">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-white border border-slate-200 shadow-xs flex items-center justify-center group-hover:border-orange-400 group-hover:scale-105 transition-all duration-300">
               <img
                 src={bmoLogo}
                 alt="BMO Projects Logo"
@@ -95,8 +100,8 @@ export const Navbar: React.FC = () => {
               />
             </div>
             <div className="flex items-center font-heading">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900">BMO</span>
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-gradient-orange ml-1">PROJECTS</span>
+              <span className="text-lg sm:text-2xl font-black tracking-tight text-slate-900">BMO</span>
+              <span className="text-lg sm:text-2xl font-black tracking-tight text-gradient-orange ml-1">PROJECTS</span>
             </div>
           </div>
 
@@ -147,22 +152,22 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Controls */}
-          <div className="flex md:hidden items-center gap-2 shrink-0">
+          <div className="flex md:hidden items-center gap-1.5 sm:gap-2 shrink-0">
             <a
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 shadow-xs flex items-center gap-1"
+              className="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-extrabold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-xs flex items-center gap-1"
             >
               <span>App</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <ExternalLink className="w-3 h-3" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-orange-600" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
 

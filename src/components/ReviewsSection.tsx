@@ -151,52 +151,71 @@ export const ReviewsSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Fast & smooth automatic rotation timer (2.7s speed)
+  // Smooth automatic rotation timer (2.2s speed)
   useEffect(() => {
     if (isHovered) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 2700);
+    }, 2200);
     return () => clearInterval(timer);
   }, [isHovered]);
+
+  // Quadruple logos list for infinite seamless marquee ribbon
+  const MARQUEE_LOGOS = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
 
   return (
     <section 
       id="reviews" 
-      className="py-24 md:py-32 bg-[#F6F8FD] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative"
+      className="py-24 md:py-32 bg-[#FAF7F2] text-slate-900 border-t border-slate-200 scroll-mt-20 overflow-hidden relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ================= 1. OUR CLIENTS LOGO BAR (Single Row Premium Layout) ================= */}
+        {/* ================= 1. OUR CLIENTS LOGO BAR (Continuous Single Row Infinite Marquee) ================= */}
         <div className="mb-20 text-center">
           
-          <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xl shadow-slate-200/50 overflow-hidden">
+          <div className="relative bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-xl shadow-slate-200/50 overflow-hidden">
             
-            {/* Subtle Inner Glow */}
+            {/* Subtle Inner Glows */}
             <div className="absolute -top-12 -left-12 w-48 h-48 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
 
             {/* Header Badge Tag */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 text-slate-500 text-xs font-extrabold uppercase tracking-widest mb-6 shadow-xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-xs font-extrabold uppercase tracking-widest mb-6 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
               <span>Trusted By Industry Leaders</span>
             </div>
 
-            {/* Single Horizontal Row Grid for all 6 Logos */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 items-center justify-items-center">
-              {CLIENT_LOGOS.map((client, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ y: -4, scale: 1.06 }}
-                  className="w-full h-16 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-pink-400 transition-all duration-300 flex items-center justify-center p-3 cursor-pointer group"
-                >
-                  <div className="transition-transform duration-300 group-hover:scale-105">
-                    {client.svg}
+            {/* Continuous Non-Stop Single Row Marquee Track */}
+            <div className="relative w-full overflow-hidden flex items-center py-2 mask-gradient">
+              {/* Fade Edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+              <motion.div
+                className="flex items-center gap-3 sm:gap-4 shrink-0"
+                animate={{ x: ['0%', '-50%'] }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: 'loop',
+                    duration: 22,
+                    ease: 'linear'
+                  }
+                }}
+              >
+                {MARQUEE_LOGOS.map((client, idx) => (
+                  <div
+                    key={idx}
+                    className="w-36 sm:w-44 h-14 sm:h-16 shrink-0 bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md hover:border-orange-400 hover:scale-105 transition-all duration-300 flex items-center justify-center p-3 cursor-pointer group"
+                  >
+                    <div className="transition-transform duration-300 group-hover:scale-110">
+                      {client.svg}
+                    </div>
                   </div>
-                </motion.div>
-              ))}
+                ))}
+              </motion.div>
             </div>
 
           </div>
@@ -204,7 +223,7 @@ export const ReviewsSection: React.FC = () => {
         </div>
 
         {/* ================= 2. TESTIMONIALS CAROUSEL CONTAINER ================= */}
-        <div className="relative bg-white/90 backdrop-blur-md rounded-[36px] p-6 sm:p-10 lg:p-16 border border-slate-100 shadow-2xl shadow-slate-200/70 overflow-hidden">
+        <div className="relative bg-white/95 backdrop-blur-md rounded-[36px] p-6 sm:p-10 lg:p-16 border border-slate-200/80 shadow-2xl shadow-slate-200/70 overflow-hidden">
           
           {/* Faint Giant Quote Watermark Top Left */}
           <div className="absolute top-4 left-6 text-slate-100 font-serif text-[180px] leading-none select-none pointer-events-none opacity-80">
@@ -213,31 +232,28 @@ export const ReviewsSection: React.FC = () => {
 
           {/* Section Header */}
           <div className="text-center relative z-10 max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-heading mb-4">
-              What our Clients say!
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-heading mb-3">
+              What our Clients <span className="text-gradient-orange">say!</span>
             </h2>
-            
-            {/* Styled Pink/Red underline bar with dot
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <div className="h-1.5 w-24 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" />
-              <div className="w-3 h-3 bg-pink-500 rounded-full animate-ping" />
-            </div> */}
+            <p className="text-slate-600 text-sm sm:text-base font-semibold">
+              Real feedback from software teams and operations leaders using BMO Projects daily.
+            </p>
           </div>
 
-          {/* LEFT CORNER FIXED NAVIGATION ARROW BUTTON */}
+          {/* LEFT CORNER NAVIGATION ARROW BUTTON */}
           <button
             onClick={handlePrev}
             aria-label="Previous Testimonial"
-            className="absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+            className="absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-orange-600 hover:border-orange-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* RIGHT CORNER FIXED NAVIGATION ARROW BUTTON */}
+          {/* RIGHT CORNER NAVIGATION ARROW BUTTON */}
           <button
             onClick={handleNext}
             aria-label="Next Testimonial"
-            className="absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+            className="absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 text-slate-700 hover:text-orange-600 hover:border-orange-300 shadow-xl flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -263,13 +279,13 @@ export const ReviewsSection: React.FC = () => {
                     animate={{
                       opacity: isCenter ? 1 : 0.7,
                       scale: isCenter ? 1.08 : 0.88,
-                      y: isCenter ? -20 : 10,
+                      y: isCenter ? -18 : 10,
                       zIndex: isCenter ? 30 : 10
                     }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                    transition={{ type: 'spring', stiffness: 320, damping: 26 }}
                     className={`w-[270px] sm:w-[320px] shrink-0 bg-white rounded-3xl p-7 border transition-all duration-300 cursor-pointer relative flex flex-col justify-between ${
                       isCenter
-                        ? 'border-pink-400 shadow-2xl shadow-pink-500/20 ring-2 ring-pink-500/30 bg-gradient-to-b from-white via-pink-50/20 to-white'
+                        ? 'border-orange-400 shadow-2xl shadow-orange-500/20 ring-4 ring-orange-400/20 bg-gradient-to-b from-white via-orange-50/20 to-white'
                         : 'border-slate-100 shadow-md hover:opacity-90'
                     }`}
                   >
@@ -280,7 +296,7 @@ export const ReviewsSection: React.FC = () => {
                           src={item.avatar}
                           alt={item.name}
                           className={`w-16 h-16 rounded-full object-cover border-2 shadow-md transition-all duration-300 ${
-                            isCenter ? 'border-pink-500 scale-110 ring-4 ring-pink-200' : 'border-slate-200'
+                            isCenter ? 'border-orange-500 scale-110 ring-4 ring-orange-200' : 'border-slate-200'
                           }`}
                         />
                       </div>
@@ -290,8 +306,8 @@ export const ReviewsSection: React.FC = () => {
                         {item.name}
                       </h3>
 
-                      <p className="text-center text-xs font-semibold text-slate-400 mb-3">
-                        {item.role} • <span className="text-pink-600 font-bold">{item.company}</span>
+                      <p className="text-center text-xs font-semibold text-slate-500 mb-3">
+                        {item.role} • <span className="text-orange-600 font-extrabold">{item.company}</span>
                       </p>
 
                       {/* Rating Stars with Pop Animation */}
@@ -333,7 +349,7 @@ export const ReviewsSection: React.FC = () => {
                   onClick={() => setCurrentIndex(dotIdx)}
                   aria-label={`Go to slide ${dotIdx + 1}`}
                   className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                    currentIndex === dotIdx ? 'w-8 bg-pink-500' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
+                    currentIndex === dotIdx ? 'w-8 bg-orange-500' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
                   }`}
                 />
               ))}

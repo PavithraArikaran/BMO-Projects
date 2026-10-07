@@ -127,7 +127,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <a
             href={APP_URL}
@@ -135,13 +135,14 @@ export const Hero: React.FC = () => {
             rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 py-4 inline-flex items-center justify-center gap-2.5 rounded-2xl text-base sm:text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200 transform hover:-translate-y-0.5 group"
           >
+            <Sparkles className="w-5 h-5 text-amber-200 group-hover:rotate-12 transition-transform" />
             <span>Go to App</span>
             <ExternalLink className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
 
           <button
             onClick={scrollToAnalytics}
-            className="w-full sm:w-auto px-6 py-4 rounded-2xl text-base sm:text-lg font-black text-slate-800 bg-white hover:bg-slate-50 border border-slate-200/90 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer hover:shadow-md transform hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl text-base sm:text-lg font-black text-slate-800 bg-white hover:bg-slate-50 border border-slate-200/90 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer hover:shadow-md transform hover:-translate-y-0.5 group"
           >
             <span>View Analytics</span>
             <ArrowRight className="h-5 w-5 text-slate-600 transition-transform duration-300 group-hover:translate-x-1" />

@@ -42,7 +42,7 @@ const LEFT_FEATURES: FeatureCard[] = [
     color: '#76CEB8', // Mint/Teal
     borderColor: 'hover:border-teal-400',
     highlights: [
-      'Live total score calculation engine (+16.67 pts)',
+      'Live total score calculation engine (+97.67 pts)',
       'Transparent individual & team score tallies'
     ]
   },
@@ -50,8 +50,8 @@ const LEFT_FEATURES: FeatureCard[] = [
     id: 'issue-management',
     title: 'Issue & Defect Management',
     icon: AlertCircle,
-    color: '#ECA0B2', // Soft Pink
-    borderColor: 'hover:border-rose-400',
+    color: '#FFB088', // Warm Coral / Orange
+    borderColor: 'hover:border-orange-400',
     highlights: [
       'Structured bug reporting with unique Issue IDs',
       'Filter by assignee, project, status & date range'

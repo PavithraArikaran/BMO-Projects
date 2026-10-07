@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, BarChart3, Clock, ListTodo, CheckSquare, Lock, ChevronLeft, ChevronRight, X, ExternalLink } from 'lucide-react';
+import { BarChart3, Clock, ListTodo, CheckSquare, Lock, ChevronLeft, ChevronRight, X, ExternalLink } from 'lucide-react';
 
 import dashboard from '../assets/dashboard_tasks.png';
 import performance from '../assets/performance_analytics.png';
@@ -89,7 +89,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
     scrollToCard(prevIdx);
   };
 
-  // Fast & smooth automatic scrolling effect (2.5s speed, keeps active screenshot centered)
+  // Fast & smooth automatic scrolling effect (1.9s speed, keeps active screenshot centered)
   React.useEffect(() => {
     if (isHovered || selectedModalItem !== null) return;
 
@@ -104,7 +104,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
         }
         return next;
       });
-    }, 2500);
+    }, 1900);
 
     return () => clearInterval(timer);
   }, [isHovered, selectedModalItem]);
@@ -119,18 +119,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-        {/* Section Header Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 shadow-xs"
-        >
-          <Sparkles className="w-4 h-4 text-orange-600 animate-spin-slow" />
-          <span>Unified App & Analytics Showcase</span>
-        </motion.div>
-
+        
         {/* Section Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 25 }}
@@ -186,7 +175,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
                   scale: isCenter ? 1.06 : 0.92,
                   opacity: isCenter ? 1 : 0.65,
                 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+                transition={{ type: 'spring', stiffness: 360, damping: 24, mass: 0.7 }}
                 onClick={() => {
                   setCurrentIndex(idx);
                   scrollToCard(idx);
