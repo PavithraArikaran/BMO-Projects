@@ -112,7 +112,7 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden bg-white pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 lg:pt-36 lg:pb-14 text-slate-900"
+      className="relative isolate overflow-hidden bg-white pt-20 sm:pt-24 md:pt-26 lg:pt-28 pb-10 sm:pb-14 lg:pb-14 text-slate-900"
     >
       {/* =====================================================
           BACKGROUND AMBIENT GLOWS
@@ -161,7 +161,7 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* =====================================================
-          MAIN CONTAINER (2-COLUMN GRID)
+          MAIN CONTAINER (2-COLUMN GRID ON LG, CLEAN STACK ON TABLET)
       ====================================================== */}
       <motion.div
         variants={containerVariants}
@@ -169,7 +169,7 @@ export const Hero: React.FC = () => {
         animate="visible"
         className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
           
           {/* ===================================================
               LEFT COLUMN: HEADLINE, FEATURE PILLS & CTAs
@@ -181,13 +181,13 @@ export const Hero: React.FC = () => {
               <motion.div
                 whileHover={{ y: -2, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-orange-50/80 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-orange-600 shadow-xs backdrop-blur-sm sm:text-xs"
+                className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-orange-50/80 px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-orange-600 shadow-xs backdrop-blur-sm sm:text-xs"
               >
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </span>
-                <Sparkles className="h-4 w-4 text-orange-500" />
+                <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-orange-500" />
                 <span>Smart Task &amp; Performance Platform</span>
               </motion.div>
             </motion.div>
@@ -195,27 +195,19 @@ export const Hero: React.FC = () => {
             {/* MAIN HEADLINE */}
             <motion.div variants={fadeUpVariants} className="relative max-w-2xl">
               <div className="pointer-events-none absolute -left-10 top-1/2 -z-10 h-48 w-80 -translate-y-1/2 rounded-full bg-orange-400/10 blur-3xl" />
-              <h1 className="font-heading text-3xl font-black leading-[1.1] tracking-[-0.035em] text-slate-950 sm:text-5xl md:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
+              <h1 className="font-heading text-2xl sm:text-4xl md:text-4xl lg:text-[3.2rem] xl:text-[3.6rem] font-black leading-[1.15] tracking-[-0.035em] text-slate-950">
                 Assign Tasks.{' '}
-                <span className="relative inline-block text-gradient-orange">
+                <span className="relative inline-block text-gradient-orange-animated font-black">
                   Calculate Points.
                 </span>{' '}
                 Elevate Performance.
               </h1>
             </motion.div>
 
-            {/* SUBTITLE */}
-            <motion.p
-              variants={fadeUpVariants}
-              className="mt-4 text-slate-600 text-base sm:text-lg font-medium leading-relaxed max-w-xl"
-            >
-              Streamline project workflows, automate daily performance scoring, track SLA issue resolutions, and motivate teams with live leaderboards.
-            </motion.p>
-
             {/* FEATURE PILLS MATRIX GRID (6 PILLS) */}
             <motion.div
               variants={fadeUpVariants}
-              className="mt-7 grid w-full max-w-xl grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3"
+              className="mt-6 sm:mt-7 grid w-full max-w-xl grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"
             >
               <FeaturePill
                 icon={<CheckCircle2 />}
@@ -252,7 +244,7 @@ export const Hero: React.FC = () => {
             {/* ACTION CTAs */}
             <motion.div
               variants={fadeUpVariants}
-              className="mt-8 flex w-full flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5"
+              className="mt-6 sm:mt-8 flex w-full flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-3.5"
             >
               {/* Primary CTA */}
               <motion.a
@@ -262,7 +254,7 @@ export const Hero: React.FC = () => {
                 whileHover={{ y: -3, scale: 1.015 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-                className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-orange-500 to-amber-500 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-orange-500/25 transition-shadow duration-300 hover:shadow-xl hover:shadow-orange-500/30 cursor-pointer"
+                className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-orange-500 to-amber-500 px-6 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-orange-500/25 transition-shadow duration-300 hover:shadow-xl hover:shadow-orange-500/30 cursor-pointer"
               >
                 <motion.span
                   initial={{ x: '-120%' }}
@@ -270,9 +262,9 @@ export const Hero: React.FC = () => {
                   transition={{ duration: 0.65, ease: 'easeInOut' }}
                   className="absolute inset-y-0 w-1/3 skew-x-[-20deg] bg-white/20 blur-sm"
                 />
-                <Sparkles className="relative h-5 w-5 text-amber-100 transition-transform duration-300 group-hover:rotate-12" />
+                <Sparkles className="relative h-4.5 w-4.5 sm:h-5 sm:w-5 text-amber-100 transition-transform duration-300 group-hover:rotate-12" />
                 <span className="relative">Go to App</span>
-                <ExternalLink className="relative h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <ExternalLink className="relative h-4.5 w-4.5 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.a>
 
               {/* Secondary CTA */}
@@ -282,10 +274,10 @@ export const Hero: React.FC = () => {
                 whileHover={{ y: -3, scale: 1.015 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-                className="group inline-flex w-full sm:w-auto cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-xs transition-all duration-300 hover:border-orange-200 hover:bg-orange-50/40 hover:shadow-md"
+                className="group inline-flex w-full sm:w-auto cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-5 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-slate-800 shadow-xs transition-all duration-300 hover:border-orange-200 hover:bg-orange-50/40 hover:shadow-md"
               >
                 <span>View Analytics</span>
-                <ArrowRight className="h-5 w-5 text-slate-500 transition-all duration-300 group-hover:translate-x-1.5 group-hover:text-orange-500" />
+                <ArrowRight className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-slate-500 transition-all duration-300 group-hover:translate-x-1.5 group-hover:text-orange-500" />
               </motion.button>
             </motion.div>
 
@@ -301,18 +293,18 @@ export const Hero: React.FC = () => {
           >
             <div
               id="contact"
-              className="relative rounded-3xl bg-white/95 p-6 sm:p-8 border border-orange-200/90 shadow-2xl shadow-orange-500/10 backdrop-blur-xl transition-all duration-300 hover:border-orange-300 scroll-mt-28 overflow-hidden"
+              className="relative rounded-3xl bg-white/95 p-5 sm:p-7 border border-orange-200/90 shadow-2xl shadow-orange-500/10 backdrop-blur-xl transition-all duration-300 hover:border-orange-400 animate-hero-card scroll-mt-28 overflow-hidden"
             >
               {/* Subtle Ambient Glow */}
               <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-gradient-to-br from-orange-400/20 to-amber-300/20 blur-2xl" />
 
               {/* CARD HEADER */}
-              <div className="flex items-center gap-3.5 mb-6 relative">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-orange-200 bg-orange-50 text-orange-600 shadow-xs">
-                  <MessageSquare className="h-6 w-6 text-orange-500" />
+              <div className="flex items-center gap-3 sm:gap-3.5 mb-5 sm:mb-6 relative">
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl border border-orange-200 bg-orange-50 text-orange-600 shadow-xs">
+                  <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-xl font-black text-slate-900 tracking-tight">
+                  <h3 className="font-heading text-lg sm:text-xl font-black text-slate-900 tracking-tight">
                     Contact Us
                   </h3>
                   <p className="text-xs font-medium text-slate-500">
@@ -326,15 +318,15 @@ export const Hero: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="py-8 text-center flex flex-col items-center justify-center"
+                  className="py-6 sm:py-8 text-center flex flex-col items-center justify-center"
                 >
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center mb-4 shadow-inner">
-                    <Check className="w-8 h-8 stroke-[3]" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center mb-4 shadow-inner">
+                    <Check className="w-7 h-7 sm:w-8 sm:h-8 stroke-[3]" />
                   </div>
-                  <h4 className="text-xl font-black text-slate-900 font-heading mb-2">
+                  <h4 className="text-lg sm:text-xl font-black text-slate-900 font-heading mb-2">
                     Message Sent Successfully!
                   </h4>
-                  <p className="text-sm font-medium text-slate-600 mb-6 max-w-xs">
+                  <p className="text-xs sm:text-sm font-medium text-slate-600 mb-6 max-w-xs">
                     Thank you, <span className="font-bold text-slate-900">{formData.name}</span>. Our team will get back to you at <span className="font-bold text-orange-600">{formData.email}</span> within 2 hours.
                   </p>
                   <button
@@ -347,11 +339,11 @@ export const Hero: React.FC = () => {
                 </motion.div>
               ) : (
                 /* CONTACT FORM */
-                <form onSubmit={handleSubmit} className="space-y-4 relative">
+                <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 relative">
                   
                   {/* FULL NAME */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1">
                       Full Name <span className="text-orange-500">*</span>
                     </label>
                     <div className="relative">
@@ -364,14 +356,14 @@ export const Hero: React.FC = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Rahul Sharma"
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   {/* WORK EMAIL */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1">
                       Work Email <span className="text-orange-500">*</span>
                     </label>
                     <div className="relative">
@@ -384,14 +376,14 @@ export const Hero: React.FC = () => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="rahul@company.com"
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   {/* PHONE / COMPANY */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1">
                       Phone / Company <span className="text-slate-400 text-[10px] font-normal">(Optional)</span>
                     </label>
                     <div className="relative">
@@ -403,14 +395,14 @@ export const Hero: React.FC = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+91 98765 43210"
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   {/* INQUIRY TYPE SELECTOR */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1">
                       Inquiry Type
                     </label>
                     <div className="grid grid-cols-2 gap-1.5">
@@ -421,7 +413,7 @@ export const Hero: React.FC = () => {
                             key={type}
                             type="button"
                             onClick={() => setFormData({ ...formData, inquiryType: type })}
-                            className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all text-center border cursor-pointer ${
+                            className={`py-1.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center border cursor-pointer ${
                               isSelected
                                 ? 'bg-orange-500 text-white border-orange-500 shadow-xs font-extrabold'
                                 : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
@@ -436,15 +428,15 @@ export const Hero: React.FC = () => {
 
                   {/* MESSAGE */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1">
                       Message
                     </label>
                     <textarea
-                      rows={3}
+                      rows={2}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell us about your team size or project requirements..."
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all resize-none"
+                      className="w-full p-2.5 sm:p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all resize-none"
                     />
                   </div>
 
@@ -454,7 +446,7 @@ export const Hero: React.FC = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-3.5 px-6 rounded-xl text-sm font-black text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+                    className="w-full py-3 px-5 sm:py-3.5 sm:px-6 rounded-xl text-xs sm:text-sm font-black text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
@@ -472,7 +464,7 @@ export const Hero: React.FC = () => {
               )}
 
               {/* CARD FOOTER INFO */}
-              <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-400">
+              <div className="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] font-bold text-slate-400">
                 <span className="flex items-center gap-1 text-slate-500">
                   <Clock className="w-3.5 h-3.5 text-orange-500" />
                   <span>⚡ 2-Hour Response</span>
@@ -508,18 +500,18 @@ const FeaturePill: React.FC<FeaturePillProps> = ({
 }) => {
   return (
     <motion.div
-      whileHover={{ y: -3, scale: 1.025 }}
-      className="group flex min-h-[54px] items-center justify-start gap-2.5 rounded-2xl border border-slate-200/90 bg-white/90 px-3 py-2.5 text-left text-xs font-extrabold text-slate-800 shadow-xs backdrop-blur-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md"
+      whileHover={{ y: -2, scale: 1.02 }}
+      className="group flex min-h-[46px] sm:min-h-[50px] items-center justify-start gap-2.5 rounded-2xl border border-slate-200/90 bg-white/90 px-2.5 sm:px-3 py-2 sm:py-2.5 text-left text-xs font-extrabold text-slate-800 shadow-xs backdrop-blur-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md min-w-0"
     >
       <span
-        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-slate-50 transition-all duration-300 group-hover:bg-orange-50 ${iconClass}`}
+        className={`flex h-6.5 w-6.5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-xl bg-slate-50 transition-all duration-300 group-hover:bg-orange-50 ${iconClass}`}
       >
         {React.cloneElement(
           icon as React.ReactElement<{ className?: string }>,
-          { className: 'h-4 w-4' }
+          { className: 'h-3.5 w-3.5 sm:h-4 sm:w-4' }
         )}
       </span>
-      <span className="leading-tight text-[11px] sm:text-xs">{text}</span>
+      <span className="leading-tight text-[11px] sm:text-xs font-bold text-slate-800 min-w-0 truncate">{text}</span>
     </motion.div>
   );
 };

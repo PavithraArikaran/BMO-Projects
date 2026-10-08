@@ -128,7 +128,7 @@ export const PerformanceAnalyticsSection: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-heading mb-4 max-w-4xl mx-auto"
         >
-          Analytics & App Interface <span className="text-gradient-orange">Showcase</span>
+          Analytics & App Interface 
         </motion.h2>
 
       </div>

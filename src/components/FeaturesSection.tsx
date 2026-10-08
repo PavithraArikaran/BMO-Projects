@@ -133,10 +133,10 @@ export const FeaturesSection: React.FC = () => {
         </div>
 
         {/* 3-Column Interactive Layout: Left Features | Center Illustration Hub | Right Features */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           
           {/* LEFT COLUMN: 3 Feature Cards */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="md:col-span-1 lg:col-span-4 space-y-5 sm:space-y-6">
             {LEFT_FEATURES.map((card, idx) => {
               const IconComponent = card.icon;
               const isActive = activeFeature === card.id;
@@ -151,30 +151,27 @@ export const FeaturesSection: React.FC = () => {
                   whileHover={{ scale: 1.02, x: 4 }}
                   onMouseEnter={() => setActiveFeature(card.id)}
                   onMouseLeave={() => setActiveFeature(null)}
-                  className={`bg-white/95 backdrop-blur-md rounded-3xl p-6 border transition-all duration-300 shadow-md hover:shadow-xl group relative overflow-hidden cursor-pointer ${card.borderColor} ${
+                  className={`bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-6 border transition-all duration-300 shadow-md hover:shadow-xl group relative overflow-hidden cursor-pointer ${card.borderColor} ${
                     isActive ? 'ring-2 ring-orange-400 shadow-orange-500/10' : 'border-stone-200/90'
                   }`}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3.5 sm:gap-4">
                     {/* Feature Icon Badge */}
                     <motion.div
                       whileHover={{ rotate: 10, scale: 1.1 }}
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
                       style={{ backgroundColor: card.color }}
                     >
-                      <IconComponent className="w-6 h-6 text-slate-900" />
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-slate-900" />
                     </motion.div>
 
                     <div className="flex-1">
-                      
-
-                      <h3 className="text-lg font-black text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
                         {card.title}
                       </h3>
 
-                     
                       {/* Animated Point List */}
-                      <div className="space-y-2 pt-3 border-t border-stone-100">
+                      <div className="space-y-1.5 sm:space-y-2 pt-2.5 sm:pt-3 border-t border-stone-100 mt-2">
                         {card.highlights.map((point, i) => (
                           <motion.div
                             key={i}
@@ -199,18 +196,18 @@ export const FeaturesSection: React.FC = () => {
           </div>
 
           {/* CENTER COLUMN: Interactive Bright Glowing Illustration Hub */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative py-6 my-4 lg:my-0">
+          <div className="md:col-span-2 lg:col-span-4 flex flex-col items-center justify-center relative py-4 my-2 lg:my-0">
             
             {/* Bright Radial Glow Aura */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[380px] sm:h-[380px] bg-gradient-to-tr from-orange-300/50 via-amber-200/60 to-orange-400/40 rounded-full blur-[80px] pointer-events-none animate-pulse" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] bg-gradient-to-tr from-orange-300/50 via-amber-200/60 to-orange-400/40 rounded-full blur-[80px] pointer-events-none animate-pulse" />
 
-            {/* Illustration Container with Floating Animation (Always Visible) */}
+            {/* Illustration Container */}
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto p-4 z-10 flex items-center justify-center"
+              className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[420px] mx-auto p-2 sm:p-4 z-10 flex items-center justify-center"
             >
-              {/* Image with Bright Glowing Light Outline */}
+              {/* Image */}
               <img
                 src={featuresIllustration}
                 alt="BMO Projects Features Overview"
@@ -240,7 +237,7 @@ export const FeaturesSection: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN: 3 Feature Cards */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="md:col-span-1 lg:col-span-4 space-y-5 sm:space-y-6">
             {RIGHT_FEATURES.map((card, idx) => {
               const IconComponent = card.icon;
               const isActive = activeFeature === card.id;
@@ -255,24 +252,22 @@ export const FeaturesSection: React.FC = () => {
                   whileHover={{ scale: 1.02, x: -4 }}
                   onMouseEnter={() => setActiveFeature(card.id)}
                   onMouseLeave={() => setActiveFeature(null)}
-                  className={`bg-white/95 backdrop-blur-md rounded-3xl p-6 border transition-all duration-300 shadow-md hover:shadow-xl group relative overflow-hidden cursor-pointer ${card.borderColor} ${
+                  className={`bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-6 border transition-all duration-300 shadow-md hover:shadow-xl group relative overflow-hidden cursor-pointer ${card.borderColor} ${
                     isActive ? 'ring-2 ring-orange-400 shadow-orange-500/10' : 'border-stone-200/90'
                   }`}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3.5 sm:gap-4">
                     {/* Feature Icon Badge */}
                     <motion.div
                       whileHover={{ rotate: 10, scale: 1.1 }}
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs"
                       style={{ backgroundColor: card.color }}
                     >
-                      <IconComponent className="w-6 h-6 text-slate-900" />
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-slate-900" />
                     </motion.div>
 
                     <div className="flex-1">
-                      
-
-                      <h3 className="text-lg font-black text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
                         {card.title}
                       </h3>
 

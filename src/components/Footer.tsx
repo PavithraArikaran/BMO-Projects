@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Heart, ArrowUp } from 'lucide-react';
 
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({
@@ -11,13 +13,9 @@ export const Footer: React.FC = () => {
     });
   };
 
-
   return (
     <footer className="relative bg-slate-950 text-white pt-1 pb-12 overflow-hidden border-t border-slate-800">
-      
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-400">
           
           {/* Crafted Tagline */}
@@ -30,7 +28,7 @@ export const Footer: React.FC = () => {
 
           {/* Copyright */}
           <div className="text-slate-500 text-center">
-            © {new Date().getFullYear()} BMO Projects. All rights reserved.
+            © {CURRENT_YEAR} BMO Projects. All rights reserved.
           </div>
 
           {/* Back to Top Interactive Button */}
